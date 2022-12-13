@@ -1,16 +1,24 @@
 ﻿using System;
 using System.Diagnostics;
 using System.ComponentModel;
+using ArrowName;
 
-namespace TaskManager
+namespace TaskManagerN
 {
+    
     public static class TaskManager
     {
+        internal enum Consts
+        {
+            min = 1,
+            step = 3,
+            left = 1
+        }
         public static void ShowAllProcesses()
         {
+            Console.Clear();
             Console.WriteLine("Список процессов");
             Process[] localAll = Process.GetProcesses();
-            // List<List<string>> table = new List<List<string>>();
             foreach (var proc in localAll)
             {
                 try
@@ -23,8 +31,10 @@ namespace TaskManager
                     // List<string> procInfo = new List<string>();
                     Console.WriteLine($"( ) - {proc.ProcessName}\n    |- Выделенная память: {proc.PagedMemorySize64 / (1024 * 1024)}MB\n    |- Время начала выполнения: Отказано в доступе");
                 }
-
             }
+
+            Arrows arrows = new Arrows((int)Consts.min, localAll.Length);
+            arrows.ShowArrow((int)Consts.left, (int)Consts.min, (int)Consts.step, "~", localAll);
         }
         public static void Main()
         {
